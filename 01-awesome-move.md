@@ -1,0 +1,4 @@
+## let's start with move security blogs (OtterSec)
+
+- an auditor's introduction: https://github.com/0xriazaka/Move-Audit-Resources?tab=readme-ov-file
+    - **summary of this article**: **Move** is a blockchain programming language designed for safer smart contracts. It uses **strong typing** to prevent you from accidentally mixing up different types of tokens/coins (like preventing Bitcoin code from being used with Ethereum), and **formal verification** to mathematically prove your code works correctly. Think of it as "training wheels for blockchain programming" - it catches dangerous mistakes before they happen, but isn't a magic solution to all security problems.
