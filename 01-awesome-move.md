@@ -98,3 +98,50 @@ freeze_object(your_private_token);
 ```
 
 **Bottom Line**: Sui's flexibility creates **identity confusion** - objects can change types, disappear/reappear, and transfer unexpectedly, breaking off-chain tracking systems! 🎭
+
+
+## move language security analysis (SharkTeam)
+
+- chapter 1 : https://www.sharkteam.org/report/analysis/20221114001A_en.pdf
+- chapter 2 : https://www.sharkteam.org/report/analysis/20221118001A_en.pdf
+- chapter 3 : https://www.sharkteam.org/report/analysis/20221125001A_en.pdf
+- chapter 4 : https://www.sharkteam.org/report/analysis/20221202001A_en.pdf
+- chapter 5 : https://www.sharkteam.org/report/analysis/20221212001A_en.pdf
+- chapter 6 : https://www.sharkteam.org/report/analysis/20230103001A_en.pdf
+- chapter 8 : https://www.sharkteam.org/report/analysis/20230130001A_en.pdf
+- chapter 9 : https://www.sharkteam.org/report/analysis/20230216001A_en.pdf
+- chapter 10 : https://www.sharkteam.org/report/analysis/20230224001A_en.pdf
+- other : https://www.sharkteam.org/report/analysis/20221013001A_en.pdf
+
+All the above 10 chapter summary is given below.
+
+Here are the **SharkTeam Move Language Security Analysis** summaries:
+
+#### 1. **Permission Vulnerabilities & Reentrancy**
+**Move Advantages**: Private functions by default, no tx.origin confusion, no self-destruct, unique resources can't be copied/manipulated arbitrarily. **Reentrancy**: Impossible due to static calls and no callback functions.
+
+#### 2. **Logic Verification Vulnerabilities** 
+**4 Bug Types**: Unchecked return values, unverified calculations, unverified parameters, improper require/assert usage. **Move Status**: Fixes language-level issues but same business logic complexity remains - economic model bugs still possible.
+
+####  3. **Fallback Attacks**
+**Attack**: Revert transactions if results aren't favorable (like "undo" button). **Move Risk**: Same vulnerability exists - randomness + contract calls + profitability. **Defense**: Entry modifiers, time locks.
+
+#### 4. **Proposal Attacks** 
+**Attack**: Gain majority DAO voting power → pass malicious proposals. **Examples**: Beanstalk ($80M), Fortress ($1M+). **Move Risk**: Identical - economics matter more than language.
+
+####  5. **Contract Upgrade Vulnerabilities**
+**Solidity Issues**: Storage conflicts, proxy complexity. **Move Solutions**: Sui (no upgrades), Starcoin (built-in 4 strategies + DAO), Aptos (simple redeploy). **Risk**: Human errors remain.
+
+####  6. **Oracle Manipulation**
+**Attack**: Flash loans → manipulate AMM prices → exploit contracts. **Examples**: xToken ($25M), Belt Finance ($6.2M). **Move Status**: Same risk exists, off-chain oracles (Pyth, SupraOracles) provide better security.
+
+####  7. **Sandwich Attacks**
+**Attack**: Front-run + back-run victim's transaction for profit. **Move Risk**: Depends on consensus mechanism - gas-price ordering = vulnerable, time-based ordering = safe. **Sui**: Potentially vulnerable due to shared AMM state.
+
+####  8. **Replay Attacks**
+**Attack**: Reuse old signatures/transactions. **Move Risk**: Higher risk due to multiple signature schemes (ECDSA, Ed25519, BLS, ZK proofs) enabling more cross-chain compatibility.
+
+####  9. **Overall Security Analysis**
+**Move Wins**: Eliminates reentrancy, overflow, asset duplication, permission issues. **Remaining Risks**: Business logic bugs, developer inexperience, cross-chain complexity. **Bottom Line**: Much safer than Solidity but not bulletproof.
+
+**Key Insight**: Move fixes **language-level** vulnerabilities but **economic/business logic** attacks remain regardless of programming language! 🛡️
